@@ -1,1 +1,1 @@
-worker: tsc && node dist/bot.js
+worker: npm start
