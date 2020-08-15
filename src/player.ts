@@ -64,7 +64,7 @@ export async function displayPlayer(
   guilds.set(guildId, { playerFlag: true });
 }
 
-export function tryDeletePlayer(message: Message, guildId: string): void {
+export async function tryDeletePlayer(message: Message, guildId: string): Promise<void> {
   const { playerMessageId } = guilds.get(guildId);
   if (!playerMessageId) {
     return;
@@ -80,8 +80,18 @@ export function tryDeletePlayer(message: Message, guildId: string): void {
     (reaction) => reaction.users.cache.has(botId),
   );
   if (playerReactions.array().length === playerEmojis.length) {
-    playerMessage.delete();
+    await playerMessage.reactions.removeAll();
+    playerMessage.delete({ timeout: botConfig.deleteMessageTimer });
   }
+}
+
+export function endPlaying(guildId: string): void {
+  const { dispatcher } = guilds.get(guildId);
+  if (!dispatcher) {
+    return;
+  }
+  dispatcher.resume();
+  client.setTimeout(() => dispatcher.end(), botConfig.compositionEndTimeout);
 }
 
 async function playCurrentComposition(message: Message, guildId: string): Promise<void> {
@@ -97,7 +107,7 @@ async function playCurrentComposition(message: Message, guildId: string): Promis
   const dispatcher = voiceConnection
     .play(await getYoutubeVideoForPlay(queue[queueIndex]), { ...botConfig.streamOptions, type: 'opus' });
   // eslint-disable-next-line no-use-before-define
-  dispatcher.on('finish', () => handleCompositiionEnd(message, guildId));
+  dispatcher.on('finish', () => handleCompositiionEnd(message, guildId).catch(() => {}));
   setState({ dispatcher });
 }
 

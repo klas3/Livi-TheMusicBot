@@ -2,7 +2,7 @@
 import { Message, MessageReaction, User } from 'discord.js';
 // eslint-disable-next-line no-unused-vars
 import guilds, { IGuildInfo } from './guildsInfo';
-import { startPlaying, displayPlayer } from './player';
+import { startPlaying, displayPlayer, endPlaying } from './player';
 import * as botConfig from './configurations/botConfig.json';
 
 export const searchEmojis = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣', '🔟'];
@@ -55,8 +55,7 @@ async function playerCollectorHandler(
     case '⏪':
       if (queueIndex > 0) {
         setState({ previous: true });
-        dispatcher.resume();
-        dispatcher.end();
+        endPlaying(guildId);
       }
       break;
     case '⏸':
@@ -69,19 +68,16 @@ async function playerCollectorHandler(
       break;
     case '⏩':
       if (queueIndex + 1 < queue.length) {
-        dispatcher.resume();
-        dispatcher.end();
+        endPlaying(guildId);
       }
       break;
     case '🔁':
       setState({ replay: true });
-      dispatcher.resume();
-      dispatcher.end();
+      endPlaying(guildId);
       break;
     case '❌':
       setState({ isDisconnectionRequired: true });
-      dispatcher.resume();
-      dispatcher.end();
+      endPlaying(guildId);
       break;
     default: dispatcher.end();
   }
@@ -105,7 +101,7 @@ export async function initializePlayerCollector(message: Message, botId: string)
     { time: botConfig.searchTimer },
   ));
   collectors.forEach((collector) => {
-    collector.on('collect', (reaction, user) => playerCollectorHandler(reaction, user.id, guildId));
+    collector.on('collect', (reaction, user) => playerCollectorHandler(reaction, user.id, guildId).catch(() => {}));
   });
   guilds.set(guildId, {
     clearPlayerCollectors: () => {

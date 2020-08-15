@@ -8,7 +8,7 @@ import {
 import guilds, { IGuildInfo, GuildInfo } from './guildsInfo';
 import { initializePlayerCollector, initializeSearchCollector } from './collectors';
 import {
-  startPlaying, displayPlayer, tryDeletePlayer, getCompositionInfoString,
+  startPlaying, displayPlayer, tryDeletePlayer, getCompositionInfoString, endPlaying,
 } from './player';
 import { searchForYoutubeVideos } from './googleApi';
 
@@ -59,12 +59,8 @@ client.on('message', async (message) => {
   }
 
   if (message.content.startsWith(`${prefix}disconnect`) && dispatcher) {
-    if (!dispatcher) {
-      message.channel.send('🧐 There is no composition playing now!');
-      return;
-    }
     guild.setState({ isDisconnectionRequired: true });
-    dispatcher.end();
+    endPlaying(guildId);
   }
 
   if (message.content.startsWith(`${prefix}start`)) {
@@ -150,7 +146,7 @@ client.on('message', async (message) => {
 
   if (message.content.startsWith(`${prefix}clean`)) {
     if (dispatcher) {
-      dispatcher.end();
+      endPlaying(guildId);
     }
     guild.resetState();
     message.channel.send('🧹 All clear!');

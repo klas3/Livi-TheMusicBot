@@ -1,5 +1,7 @@
 {
   "searchTimer": 120000,
+  "deleteMessageTimer": 1000,
+  "compositionEndTimeout": 200,
   "speakingLanguage": "ru-RU",
   "maxYoutubeSearchResults": 10,
   "prefix": "!",
