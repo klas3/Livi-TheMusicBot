@@ -9,7 +9,6 @@
     "ffmpeg-binaries": "^3.2.2-3",
     "node-opus": "^0.3.3",
     "opusscript": "0.0.7",
-    "typescript": "^3.9.7",
     "youtube-search": "^1.1.4",
     "ytdl-core-discord": "^1.2.1"
   },
