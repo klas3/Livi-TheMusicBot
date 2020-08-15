@@ -1,0 +1,43 @@
+{
+  "name": "musicbotoriginal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/bot.js",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "ffmpeg-binaries": "^3.2.2-3",
+    "node-opus": "^0.3.3",
+    "opusscript": "0.0.7",
+    "youtube-search": "^1.1.4",
+    "ytdl-core-discord": "^1.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.27",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
+    "concurrently": "^5.3.0",
+    "eslint": "^7.6.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc && node src/bot.js",
+    "dev": "concurrently \"tsc -w\" \"nodemon --inspect dist/bot.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/klas3/Livi-TheMusicBot.git"
+  },
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/klas3/Livi-TheMusicBot/issues"
+  },
+  "homepage": "https://github.com/klas3/Livi-TheMusicBot#readme"
+}

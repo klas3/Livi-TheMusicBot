@@ -1,0 +1,18 @@
+{
+  "searchTimer": 120000,
+  "speakingLanguage": "ru-RU",
+  "maxYoutubeSearchResults": 10,
+  "prefix": "!",
+  "streamOptions": {
+    "seek": 0,
+    "volume": 0.5
+  },
+  "phrases": {
+    "startingCompostion": "Starting. R",
+    "nextCompostion": "Next composition. R",
+    "previousComposition": "Previous composition. R",
+    "disconnecting": "Disconnected. R"
+  },
+  "messageDefaultColor": 3447003,
+  "activity": "!help"
+}
