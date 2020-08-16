@@ -54,23 +54,3 @@ export function fetchYoutubeVideo(videoUrl: string): Promise<VideoInfo> | undefi
     return undefined;
   }
 }
-
-// export async function sayAndDo(
-//   guildId: string,
-//   phrase: string,
-//   action: () => void,
-// ): Promise<void> {
-//   if (!client.voice) {
-//     return;
-//   }
-//   const voiceConnection = client.voice.connections.get(guildId);
-//   if (!voiceConnection) {
-//     return;
-//   }
-//   const URL = await googleTTS(phrase, botConfig.speakingLanguage, 1);
-//   const phraseDispatcher = voiceConnection.play(URL);
-//   phraseDispatcher.on('end', () => {
-//     action();
-//   });
-//   action();
-// }

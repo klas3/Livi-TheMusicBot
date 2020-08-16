@@ -123,8 +123,8 @@ async function handleCompositiionEnd(message: Message, guildId: string): Promise
   }
   queueIndex += 1;
   setState({ queueIndex });
+  clearPlayerCollectors();
   if ((queueIndex >= queue.length && !previous && !loop && !replay) || isDisconnectionRequired) {
-    clearPlayerCollectors();
     tryDeletePlayer(message, guildId);
     guilds.reset(guildId);
     const dispatcherVoiceConnection = client.voice.connections.get(guildId);
