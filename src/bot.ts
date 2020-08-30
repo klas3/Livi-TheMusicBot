@@ -2,13 +2,21 @@
 import { Client, TextChannel } from 'discord.js';
 import * as botConfig from './configurations/botConfig.json';
 import {
-  getHelpMessage, getGreetingsMessage, getQueueMessage, getSearchMessage, getPlayerHelpMessage,
+  getHelpMessage,
+  getGreetingsMessage,
+  getQueueMessage,
+  getSearchMessage,
+  getPlayerHelpMessage,
 } from './messages';
 // eslint-disable-next-line no-unused-vars
 import guilds, { IGuildInfo, GuildInfo } from './guildsInfo';
 import { initializePlayerCollector, initializeSearchCollector } from './collectors';
 import {
-  startPlaying, displayPlayer, tryDeletePlayer, getCompositionInfoString, endPlaying,
+  startPlaying,
+  displayPlayer,
+  tryDeletePlayer,
+  getCompositionInfoString,
+  endPlaying,
 } from './player';
 import { searchForYoutubeVideos } from './googleApi';
 
@@ -45,15 +53,15 @@ client.on('message', async (message) => {
       message.channel.send('🧐 There is no composition playing now!');
       return;
     }
-    const messageText = `\`\`\`Elm${
-      queue.map((composition, index) => {
+    const messageText = `\`\`\`Elm${queue
+      .map((composition, index) => {
         const info = compositionsInfo.get(composition);
         if (!info) {
           return '';
         }
         return getCompositionInfoString(index + 1, info.title, info.length_seconds);
-      }).join('')
-    }\n\`\`\``;
+      })
+      .join('')}\n\`\`\``;
     const { username } = client.user;
     message.channel.send(getQueueMessage(client.user.displayAvatarURL(), username, messageText));
   }
@@ -84,7 +92,9 @@ client.on('message', async (message) => {
       return;
     }
     if (collectorIdArr[queueIndex] !== message.author.id) {
-      message.author.send('😕 I\'m sorry, but you\'re not the reserver of the current composition, so you can\'t do that.');
+      message.author.send(
+        "😕 I'm sorry, but you're not the reserver of the current composition, so you can't do that.",
+      );
       return;
     }
     clearPlayerCollectors();
@@ -119,13 +129,15 @@ client.on('message', async (message) => {
       guild.setState({ searchFlag: true, searchMessage: message });
       searchResults.push(video.link);
     });
-    message.channel.send(getSearchMessage(
-      message.author.displayAvatarURL(),
-      message.author.username,
-      client.user.displayAvatarURL(),
-      searchText,
-      compositionsBuilder.join(''),
-    ));
+    message.channel.send(
+      getSearchMessage(
+        message.author.displayAvatarURL(),
+        message.author.username,
+        client.user.displayAvatarURL(),
+        searchText,
+        compositionsBuilder.join(''),
+      ),
+    );
   }
 
   if (message.content.startsWith(`${prefix}remove`)) {
@@ -160,7 +172,9 @@ client.on('guildCreate', (guild) => {
   if (!client.user) {
     return;
   }
-  const guildChannel = guild.channels.cache.find((channel) => channel.type === 'text') as TextChannel;
+  const guildChannel = guild.channels.cache.find(
+    (channel) => channel.type === 'text',
+  ) as TextChannel;
   guildChannel.send(getGreetingsMessage(client.user.displayAvatarURL(), client.user.username));
 });
 

@@ -18,8 +18,10 @@ export function getDurationString(length: string): string {
     return '';
   }
   const minutes = Math.floor(videoLength / secondsInMinute);
-  const seconds = videoLength - (minutes * secondsInMinute);
-  return `${minutes < firstTwoDigitsNumber ? '0' : ''}${minutes}:${seconds < firstTwoDigitsNumber ? '0' : ''}${seconds}`;
+  const seconds = videoLength - minutes * secondsInMinute;
+  return `${minutes < firstTwoDigitsNumber ? '0' : ''}${minutes}:${
+    seconds < firstTwoDigitsNumber ? '0' : ''
+  }${seconds}`;
 }
 
 export function getCompositionInfoString(index: number, title: string, length?: string): string {
@@ -76,6 +78,7 @@ export async function tryDeletePlayer(message: Message, guildId: string): Promis
     return;
   }
   const botId = client.user.id;
+  // prettier-ignore
   const playerReactions = playerMessage.reactions.cache.filter(
     (reaction) => reaction.users.cache.has(botId),
   );
@@ -104,8 +107,10 @@ async function playCurrentComposition(message: Message, guildId: string): Promis
     return;
   }
   const setState = (newState: IGuildInfo) => guilds.set(guildId, newState);
-  const dispatcher = voiceConnection
-    .play(await getYoutubeVideoForPlay(queue[queueIndex]), { ...botConfig.streamOptions, type: 'opus' });
+  const dispatcher = voiceConnection.play(await getYoutubeVideoForPlay(queue[queueIndex]), {
+    ...botConfig.streamOptions,
+    type: 'opus',
+  });
   // eslint-disable-next-line no-use-before-define
   dispatcher.on('finish', () => handleCompositiionEnd(message, guildId).catch(() => {}));
   setState({ dispatcher });
@@ -114,9 +119,16 @@ async function playCurrentComposition(message: Message, guildId: string): Promis
 async function handleCompositiionEnd(message: Message, guildId: string): Promise<void> {
   const setState = (newState: IGuildInfo) => guilds.set(guildId, newState);
   const {
-    queue, previous, loop, replay, isDisconnectionRequired, clearPlayerCollectors, playerMessageId,
+    queue,
+    previous,
+    loop,
+    replay,
+    isDisconnectionRequired,
+    clearPlayerCollectors,
+    playerMessageId,
   } = guilds.get(guildId);
   let { queueIndex } = guilds.get(guildId);
+  // prettier-ignore
   // eslint-disable-next-line max-len
   if (!queue || queueIndex === undefined || !client.voice || !clearPlayerCollectors || !message.member) {
     return;

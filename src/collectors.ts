@@ -8,11 +8,7 @@ import * as botConfig from './configurations/botConfig.json';
 export const searchEmojis = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '8⃣', '9⃣', '🔟'];
 export const playerEmojis = ['🔄', '⏪', '⏸', '▶', '⏩', '🔁', '❌'];
 
-async function reactMessage(
-  message: Message,
-  emojis: string[],
-  maxCount?: number,
-): Promise<void> {
+async function reactMessage(message: Message, emojis: string[], maxCount?: number): Promise<void> {
   await Promise.all([
     emojis.map((emoji, index) => {
       if (maxCount && index > maxCount) {
@@ -30,14 +26,21 @@ async function playerCollectorHandler(
   guildId: string,
 ): Promise<void> {
   const setState = (newState: IGuildInfo) => guilds.set(guildId, newState);
+  // prettier-ignore
   const {
     dispatcher, loop, queueIndex, queue, playerMessageId, collectorIdArr,
   } = guilds.get(guildId);
-  if (!dispatcher || queueIndex === undefined || !queue
-    || !reaction.message.guild || !collectorIdArr) {
+  // prettier-ignore
+  if (!dispatcher
+    || queueIndex === undefined
+    || !queue
+    || !reaction.message.guild
+    || !collectorIdArr
+  ) {
     return;
   }
   const reserver = reaction.message.guild.members.cache.get(collectorIdArr[queueIndex]);
+  // prettier-ignore
   const updatePlayer = () => displayPlayer(
     reaction.message,
     queue[queueIndex],
@@ -79,7 +82,8 @@ async function playerCollectorHandler(
       setState({ isDisconnectionRequired: true });
       endPlaying(guildId);
       break;
-    default: dispatcher.end();
+    default:
+      dispatcher.end();
   }
 }
 
@@ -93,13 +97,16 @@ export async function initializePlayerCollector(message: Message, botId: string)
     return;
   }
   await reactMessage(message, playerEmojis);
+  // prettier-ignore
   const panelFilter = (reaction: MessageReaction, user: User, emoji: string) => !user.bot
     && collectorIdArr[queueIndex] === user.id
     && reaction.emoji.name === emoji;
+  // prettier-ignore
   const collectors = playerEmojis.map((emoji) => message.createReactionCollector(
     (reaction, user) => panelFilter(reaction, user, emoji),
     { time: botConfig.searchTimer },
   ));
+  // prettier-ignore
   collectors.forEach((collector) => {
     collector.on('collect', (reaction, user) => playerCollectorHandler(reaction, user.id, guildId).catch(() => {}));
   });
@@ -118,6 +125,7 @@ export async function initializeSearchCollector(message: Message, botId: string)
   if (!message.guild) {
     return;
   }
+  // prettier-ignore
   const {
     searchFlag, searcherId, searchMessage, searchResults,
   } = guilds.get(message.guild.id);
@@ -127,6 +135,7 @@ export async function initializeSearchCollector(message: Message, botId: string)
   guilds.set(message.guild.id, { searchFlag: false });
   reactMessage(message, searchEmojis, searchResults.length);
   searchResults.forEach((video, index) => {
+    // prettier-ignore
     // eslint-disable-next-line consistent-return
     const searchFilter = (reaction: MessageReaction, user: User) => !user.bot
       && user.id === searcherId

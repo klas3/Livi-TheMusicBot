@@ -47,7 +47,7 @@ export function getPlayerHelpMessage(botAvatarUrl: string): {} {
   return {
     embed: {
       color: botConfig.messageDefaultColor,
-      title: 'So let\'s discover what these buttons on palyer can do',
+      title: "So let's discover what these buttons on palyer can do",
       fields: [
         {
           name: '🔄 - ***loop***',
@@ -90,7 +90,8 @@ export function getGreetingsMessage(botAvatarUrl: string, botUsername: string): 
   return {
     embed: {
       color: botConfig.messageDefaultColor,
-      description: '**Thank you for adding me to your guild!** \n ```yaml\nType !help to see more commands;\n```',
+      description:
+        '**Thank you for adding me to your guild!** \n ```yaml\nType !help to see more commands;\n```',
       author: {
         icon_url: botAvatarUrl,
         name: botUsername,
@@ -138,7 +139,9 @@ export function getPlayerMessage(
       },
       description: `***[${compositionTitle}](${compositionUrl})***\n`,
       footer: {
-        text: `🕑 Duration: ${duration}\n${isPaused ? '⏸️ Paused' : ''}${!isPaused && isLooped ? '🔄 Looped' : ''}`,
+        text: `🕑 Duration: ${duration}\n${isPaused ? '⏸️ Paused' : ''}${
+          !isPaused && isLooped ? '🔄 Looped' : ''
+        }`,
       },
     },
   };

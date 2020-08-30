@@ -23,7 +23,7 @@ export interface IGuildInfo {
 }
 
 export interface GuildInfo {
-  getState():IGuildInfo;
+  getState(): IGuildInfo;
   setState(newState: IGuildInfo): void;
   resetState(): void;
 }

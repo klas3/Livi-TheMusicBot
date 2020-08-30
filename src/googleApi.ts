@@ -1,6 +1,10 @@
 import youtubeSearch, {
   // eslint-disable-next-line no-unused-vars
-  YouTubeSearchResults, YouTubeSearchOptions, YouTubeSearchPageResults,
+  YouTubeSearchResults,
+  // eslint-disable-next-line no-unused-vars
+  YouTubeSearchOptions,
+  // eslint-disable-next-line no-unused-vars
+  YouTubeSearchPageResults,
 } from 'youtube-search';
 import ytdl from 'ytdl-core-discord';
 // eslint-disable-next-line no-unused-vars
@@ -24,9 +28,13 @@ interface YoutubeSearchResult {
 }
 
 function getVideoId(url: string): string | undefined {
-  return url.split('?').pop()?.split('&').find(
-    (parameter) => parameter.startsWith('v='),
-  )?.split('=').pop();
+  return url
+    .split('?')
+    .pop()
+    ?.split('&')
+    .find((parameter) => parameter.startsWith('v='))
+    ?.split('=')
+    .pop();
 }
 
 export interface VideoInfo {
