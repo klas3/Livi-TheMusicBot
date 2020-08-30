@@ -128,9 +128,13 @@ async function handleCompositiionEnd(message: Message, guildId: string): Promise
     playerMessageId,
   } = guilds.get(guildId);
   let { queueIndex } = guilds.get(guildId);
-  // prettier-ignore
-  // eslint-disable-next-line max-len
-  if (!queue || queueIndex === undefined || !client.voice || !clearPlayerCollectors || !message.member) {
+  if (
+    !queue
+    || queueIndex === undefined
+    || !client.voice
+    || !clearPlayerCollectors
+    || !message.member
+  ) {
     return;
   }
   queueIndex += 1;

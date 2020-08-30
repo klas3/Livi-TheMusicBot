@@ -30,8 +30,8 @@ async function playerCollectorHandler(
   const {
     dispatcher, loop, queueIndex, queue, playerMessageId, collectorIdArr,
   } = guilds.get(guildId);
-  // prettier-ignore
-  if (!dispatcher
+  if (
+    !dispatcher
     || queueIndex === undefined
     || !queue
     || !reaction.message.guild
